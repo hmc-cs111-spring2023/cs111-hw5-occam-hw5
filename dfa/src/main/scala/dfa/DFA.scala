@@ -17,12 +17,9 @@ class DFA(val states: Set[State], val transitions: Set[Transition],
         if input.length == 0 then accept.contains(currentState)
         else {
             // change the state based on the head character
-            val nextState = transitions.find(transition =>
+            val nextState = transitions.filter(transition =>
                 transition.from == currentState &&
-                transition.symbol == input.head) match {
-                    case Some(transition) => transition.to
-                    case None => throw new IllegalArgumentException
-                }
+                transition.symbol == input.head).head.to
 
             // check the rest of the input recursively
             acceptsHelper(input.tail, nextState)
